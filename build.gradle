@@ -1,0 +1,30 @@
+apply plugin: 'java'
+sourceSets {
+   main.resources.srcDirs = ['src/main/resources']
+   main.java.srcDirs = ['src/main/java']
+}
+
+version = '1.0'
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+task toJar(type: Jar) {
+	manifest {
+         attributes 'Implementation-Title': 'Parse Access log file to MySql Table',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'Parser'
+    }
+    baseName = project.name
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+repositories {
+    flatDir {
+       dirs 'lib'
+   }
+}
+
+dependencies {
+   compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+}
