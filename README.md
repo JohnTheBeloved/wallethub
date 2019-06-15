@@ -17,11 +17,9 @@ Solution to interview question at wallethub
 
 ### Solution 2
 
-- database name 
+- database name : `access_log`
 
-access_log
-
-- log table
+- log table shcema
 
 ```
   CREATE TABLE `blocked_ip_3` (
@@ -33,7 +31,8 @@ access_log
 
 ```
 
-- blocked IP Table
+- Blocked IPs Table
+
 ```
 CREATE TABLE `log_line_3` (
   `id` int(64) NOT NULL AUTO_INCREMENT,
