@@ -5,8 +5,8 @@ sourceSets {
 }
 
 version = '1.0'
-sourceCompatibility = 1.9
-targetCompatibility = 1.9
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 task toJar(type: Jar) {
 	manifest {

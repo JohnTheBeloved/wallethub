@@ -1,11 +1,11 @@
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Properties;
 
 public class MySqlUtil {
@@ -36,7 +36,7 @@ public class MySqlUtil {
         this.blockedIPTableName = properties.getProperty("table.blocked_ip") != null ? properties.getProperty("table.blocked_ip") : "blocked_ip";
         CREATE_DATABASE = "CREATE DATABASE " + this.database;
         CREATE_LOG_LINE_TABLE = "CREATE TABLE " + this.logLineTableName + " (id INT(64) NOT NULL AUTO_INCREMENT,"
-        + " log_time DATE, ip_address VARCHAR(20), request VARCHAR(100), status INT(64), user_agent VARCHAR(200), PRIMARY KEY (id));";
+        + " log_time DATETIME, ip_address VARCHAR(20), request VARCHAR(100), status INT(64), user_agent VARCHAR(200), PRIMARY KEY (id));";
         CREATE_BLOCKED_IP_TABLE = "CREATE TABLE " + this.blockedIPTableName + " (id INT(64) NOT NULL AUTO_INCREMENT,"
         + "ip_address VARCHAR(20), comment VARCHAR(200), PRIMARY KEY (id));";
         INSERT_LOG_LINE_TABLE = "INSERT INTO "+ this.logLineTableName +" ( log_time, ip_address, request, status, user_agent ) VALUES(?, ?, ?, ?, ? )";
@@ -114,7 +114,7 @@ public class MySqlUtil {
 
     public boolean insertLogLine(LogLine logLine) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(INSERT_LOG_LINE_TABLE);
-        statement.setDate(1, new Date(logLine.getDate().getTime()));
+        statement.setTimestamp(1, new Timestamp(logLine.getDate().getTime()));
         statement.setString(2, logLine.getIP());
         statement.setString(3, logLine.getRequest());
         statement.setInt(4, logLine.getStatus());
