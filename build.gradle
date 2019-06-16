@@ -12,7 +12,7 @@ task toJar(type: Jar) {
 	manifest {
          attributes 'Implementation-Title': 'Parse Access log file to MySql Table',  
         	'Implementation-Version': version,
-        	'Main-Class': 'Parser'
+        	'Main-Class': 'com.wallethub.log.Parser'
     }
     baseName = project.name
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }

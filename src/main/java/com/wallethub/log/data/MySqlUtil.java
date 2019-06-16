@@ -1,3 +1,5 @@
+package com.wallethub.log.data;
+
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -7,6 +9,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Properties;
+
+import com.wallethub.log.model.LogLine;
 
 public class MySqlUtil {
     
@@ -25,7 +29,6 @@ public class MySqlUtil {
     private final String CREATE_BLOCKED_IP_TABLE;
     private final String INSERT_LOG_LINE_TABLE;
     private final String INSERT_BLOCKED_IP_TABLE;
-
 
     public MySqlUtil(Properties properties){
         this.url = properties.getProperty("url") != null ? properties.getProperty("url") : "";
@@ -101,7 +104,6 @@ public class MySqlUtil {
 
     private boolean tableExists(String tableName)  throws SQLException{
         DatabaseMetaData dbm = connection.getMetaData();
-        // check if logTable table is there
         ResultSet resultSet = dbm.getTables(null, null, tableName , null);
         while(resultSet.next()){
                 if (resultSet != null && resultSet.getString("TABLE_NAME").equals(tableName)) {

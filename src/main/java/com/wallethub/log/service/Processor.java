@@ -1,3 +1,5 @@
+package com.wallethub.log.service;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,6 +14,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Map.Entry;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.wallethub.log.data.MySqlUtil;
+import com.wallethub.log.model.LogLine;
 
 public class Processor {
 
@@ -71,22 +76,17 @@ public class Processor {
                     try {
                         LogLine logLine = parseLogLine(line);
                         if(mySqlUtil.insertLogLine(logLine)){
-                            //System.out.println(String.format(" log record on line %s inserted successfully", i));
                             if(blocks.get(logLine.getIP()) == null && logLine.getDate().after(startDate)
                                 && logLine.getDate().before(endDate)
                             ) {
-                                //System.out.print("Access Status: " + logLine.getIP()+" --- " + requestCounter.get(logLine.getIP()));
                                 Integer noOfRequests = requestCounter.get(logLine.getIP()) != null ? requestCounter.get(logLine.getIP())  : 1;
                                 noOfRequests++;
                                 requestCounter.put(logLine.getIP(), noOfRequests);
                                 if(noOfRequests.compareTo(threshold) >= 0){
                                     mySqlUtil.insertBlockedIP(logLine.getIP(), comment);
                                     blocks.put(logLine.getIP(), true);
-                                    //System.out.println(String.format("Blocked IP(%s) : ", logLine.getIP(), comment));
                                 }
                             }
-                        }else {
-                            //System.out.println(String.format("Log record on line %s NOT inserted successfully due to (Unknown reason), Please review log record \n %s", i, line));
                         }
                     } catch (ParseException e) {
                         System.out.println(String.format("Log record on line %s NOT inserted successfully due to (%s)", i, e.getMessage()));
@@ -101,7 +101,7 @@ public class Processor {
         for(Entry<String, Boolean> ip: blocks.entrySet()){
             System.out.println(
                 String
-                    .format("%s: If you open the log file, %s has %s or more requests between %s and %s\n", 
+                    .format("\n%s: If you open the log file, %s has %s or more requests between %s and %s", 
                         ip.getKey(), ip.getKey(), threshold, parameterFormat.format(startDate), parameterFormat.format(endDate))
                         );
         }

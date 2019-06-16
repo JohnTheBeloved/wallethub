@@ -1,3 +1,5 @@
+package com.wallethub.log;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,6 +11,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import com.wallethub.log.service.Processor;
 
 public class Parser {
 

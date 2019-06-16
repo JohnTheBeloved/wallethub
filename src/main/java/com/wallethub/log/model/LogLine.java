@@ -1,3 +1,5 @@
+package com.wallethub.log.model;
+
 import java.util.Date;
 
 public class LogLine {
