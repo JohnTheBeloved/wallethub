@@ -34,7 +34,7 @@ Solution to interview question at wallethub
 
 ```
 
-- Blocked IPs Table
+- Blocked IPs Schema
 
 ```
 CREATE TABLE `log_line_3` (
